@@ -1,9 +1,7 @@
 version: 2.1
 
-
 orbs:
   slack: circleci/slack@4.12.0
-
 
 commands:
   notify_on_failure:
@@ -14,10 +12,10 @@ commands:
           template: basic_fail_1
 
   install_awscli:
-    description: Install AWS CLI
+    description: Install AWS CLI v2
     steps:
       - run:
-          name: Install AWS CLI
+          name: Install AWS CLI v2
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
@@ -30,9 +28,9 @@ commands:
           name: Install Ansible
           command: |
             sudo apt update
-            sudo apt install software-properties-common
+            sudo apt install software-properties-common -y
             sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt install ansible
+            sudo apt install ansible -y
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -183,19 +181,19 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
+              --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-              --tags project=udapeople
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
 
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
+              --template-file .circleci/files/frontend.yml \
+              --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-              --tags project=udapeople
-            
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
+
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -373,9 +371,9 @@ workflows:
 
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [main]
+          filters:
+            branches:
+              only: [main]
 
       - notify_on_success:
           requires:
