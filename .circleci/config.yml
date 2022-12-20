@@ -16,7 +16,7 @@ commands:
   install_awscli:
     description: Install AWS CLI v2
     steps:
-      - run: 
+      - run:
           name: Install AWS CLI v2
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -24,10 +24,10 @@ commands:
             sudo ./aws/install
 
   install_ansible:
-    description: Install Ansible v2
+    description: Install Ansible
     steps:
       - run:
-          name: Install Ansible v2
+          name: Install Ansible
           command: |
             sudo apt update
             sudo apt install software-properties-common -y
@@ -205,7 +205,6 @@ jobs:
               --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
-      - notify_on_failure
 
       - persist_to_workspace:
           root: ~/
@@ -213,6 +212,10 @@ jobs:
             - project/.circleci/ansible/inventory.txt
 
       - destroy-environment
+
+      - notify_on_failure
+
+      
 
 #   configure-infrastructure:
 #     docker:
@@ -372,6 +375,7 @@ workflows:
           filters:
             branches:
               only: [main]
+              
       - notify_on_success:
           requires:
             - test-frontend
