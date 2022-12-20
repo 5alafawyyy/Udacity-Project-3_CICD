@@ -371,9 +371,9 @@ jobs:
             FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
             if curl -s $FRONTEND_WEBSITE | grep "Welcome"
             then
-              exit 1
+              exit 0
             else
-              exit 2
+              exit 1
             fi
       - destroy-environment
       - revert-migrations
@@ -454,7 +454,7 @@ workflows:
 
       - deploy-backend:
           requires: [run-migrations]
-          
+
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
 
@@ -470,7 +470,6 @@ workflows:
             - deploy-frontend
             - deploy-backend
             - smoke-test
-
 
       # - cloudfront-update:
       #     requires: [smoke-test]
