@@ -4,7 +4,7 @@ https://github.com/engAhmedkhallaf/Udacity-Project-3_CICD
 
 #URL_02:
 S3 Bucket:
-http://udapeople-fe4676e.s3-website-us-west-2.amazonaws.com
+http://udapeople-70ca335.s3-website-us-west-2.amazonaws.com
 
 #URL_03:
 CloudFront
@@ -12,11 +12,11 @@ http://d2s1mfg0tp6x5f.cloudfront.net
 
 #URL_04:
 The backend endpoint:
-http://ec2-35-85-9-94.us-west-2.compute.amazonaws.com:3030/api/status
-http://35.85.9.94:3030/api/status
+http://ec2-35-81-230-77.us-west-2.compute.amazonaws.com:3030/api/status
+http://35.81.230.77:3030/api/status
 
 #URL_05:
 Prometheus Server:
-http://ec2-35-166-243-157.us-west-2.compute.amazonaws.com
+http://ec2-52-37-218-229.us-west-2.compute.amazonaws.com
 
 
